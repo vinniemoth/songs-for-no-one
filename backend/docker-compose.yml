@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: postgres_dedicatorias
+    restart: always
+    environment:
+      POSTGRES_USER: vinniemoth
+      POSTGRES_PASSWORD: vinniemoth
+      POSTGRES_DB: dedication_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

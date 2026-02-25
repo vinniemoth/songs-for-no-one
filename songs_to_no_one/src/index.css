@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #000;
+}
+
+body {
+  background: #232228;
+}
+
+nav {
+  background: #2d2e34;
+}
+
+.active {
+  background: #46484f;
+}
+
+.card {
+  background: #2e2e34;
+}
