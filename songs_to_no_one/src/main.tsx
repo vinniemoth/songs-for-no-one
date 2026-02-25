@@ -7,15 +7,13 @@ import App from "./App.tsx";
 import PostPage from "./pages/PostPage.tsx";
 import SearchPage from "./pages/SearchPage.tsx";
 import SignupPage from "./pages/SignupPage.tsx";
+import { AuthProvider } from "./contexts/AuthContext.tsx";
+import { ProtectedRoute } from "./pages/ProtectedRoute.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-  },
-  {
-    path: "/post",
-    element: <PostPage />,
   },
   {
     path: "/search",
@@ -25,10 +23,21 @@ const router = createBrowserRouter([
     path: "/signup",
     element: <SignupPage />,
   },
+  {
+    element: <ProtectedRoute />,
+    children: [
+      {
+        path: "/post",
+        element: <PostPage />,
+      },
+    ],
+  },
 ]);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={router}></RouterProvider>
+    <AuthProvider>
+      <RouterProvider router={router}></RouterProvider>
+    </AuthProvider>
   </StrictMode>,
 );

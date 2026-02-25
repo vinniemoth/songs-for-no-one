@@ -5,6 +5,7 @@ import { authenticationService } from "../services/authService";
 import showNotification from "../utils/notify";
 import Toast from "../components/Toast";
 import { useNavigate } from "react-router";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function SignupPage() {
   const [mode, setMode] = useState("signup");
@@ -12,6 +13,8 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const { login } = useAuth();
 
   const navigate = useNavigate();
 
@@ -26,9 +29,8 @@ export default function SignupPage() {
         );
         showNotification("Account Created!", "success");
         return;
-      } catch (err) {
-        console.error(err);
-        showNotification("Error creating account", "error");
+      } catch (error) {
+        showNotification(`${error}`, "error");
         return;
       }
     }
@@ -40,13 +42,13 @@ export default function SignupPage() {
     e.preventDefault();
     try {
       const data = await authenticationService.login(email, password);
-      localStorage.setItem("token", data.token);
+      login(data.token);
       showNotification("Logged in!", "success");
       navigate("/");
       return data;
     } catch (error: any) {
       console.error(error);
-      showNotification(error.message, "error");
+      showNotification(error, "error");
       return;
     }
   };

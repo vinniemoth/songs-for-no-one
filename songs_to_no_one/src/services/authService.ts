@@ -30,10 +30,9 @@ export const authenticationService = {
       }),
     });
 
-    console.log(await response.json());
     if (!response.ok) {
       const ErrorData = await response.json();
-      throw new Error(ErrorData.message);
+      throw new Error(ErrorData);
     }
     return response.json;
   },

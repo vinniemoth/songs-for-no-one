@@ -19,7 +19,8 @@ router.post("/signup", async (req, res) => {
     const user = await userService.createUser(validation.data);
     res.status(201).json(user);
   } catch (error) {
-    res.status(500).json("Error creating user");
+    console.log(error);
+    res.status(500).json(error.message);
   }
 });
 
