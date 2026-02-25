@@ -27,7 +27,6 @@ export default function SearchResults() {
         setHasMore(false);
       }
 
-      // Se for a primeira página, substitui. Se não, concatena.
       setDedications((prev) =>
         pageToLoad === 1 ? newData : [...prev, ...newData],
       );

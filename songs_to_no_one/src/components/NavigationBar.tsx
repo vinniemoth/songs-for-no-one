@@ -1,4 +1,4 @@
-import { FaHome, FaPlus, FaSearch } from "react-icons/fa";
+import { FaHome, FaPlus, FaSearch, FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router";
 
 interface NavigationBarProps {
@@ -26,6 +26,12 @@ export default function NavigationBar(props: NavigationBarProps) {
         onClick={() => navigate("/post")}
       >
         <FaPlus size={30} color={"white"} />
+      </div>
+      <div
+        className={`flex justify-center p-4 m-2 hover:cursor-pointer ${props.active === "user" ? "active rounded-lg" : ""} hover:bg-zinc-800 rounded-lg`}
+        onClick={() => navigate("/signup")}
+      >
+        <FaUser size={30} color={"white"} />
       </div>
     </nav>
   );

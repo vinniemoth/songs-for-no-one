@@ -85,7 +85,6 @@ export default function PostPage() {
           Send a Dedicatory
         </h1>
 
-        {/* Se NÃO houver música selecionada, mostra a busca */}
         {!song ? (
           <div className="w-full px-8 max-w-2xl">
             <SongInput searchTerm={searchTerm} onSearchChange={setSearchTerm} />
@@ -103,7 +102,6 @@ export default function PostPage() {
             />
           </div>
         ) : (
-          /* Se HOUVER música, mostra o formulário de dedicatória */
           <form
             onSubmit={handleSubmit}
             className="w-full max-w-xl px-8 animate-in fade-in slide-in-from-bottom-4 duration-500"

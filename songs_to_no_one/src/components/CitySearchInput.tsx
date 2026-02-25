@@ -33,7 +33,6 @@ export default function CitySearchInput({ onChange }: CitySearchProps) {
   }, [query]);
 
   const handleSelect = (displayName: string) => {
-    const safeValue = displayName || "";
     setQuery(displayName);
     onChange(displayName);
     setIsOpen(false);

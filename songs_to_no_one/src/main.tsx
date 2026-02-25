@@ -6,6 +6,7 @@ import "./index.css";
 import App from "./App.tsx";
 import PostPage from "./pages/PostPage.tsx";
 import SearchPage from "./pages/SearchPage.tsx";
+import SignupPage from "./pages/SignupPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: "/search",
     element: <SearchPage />,
+  },
+  {
+    path: "/signup",
+    element: <SignupPage />,
   },
 ]);
 
