@@ -38,7 +38,7 @@ export default function SongCard(props: SongCardProps) {
           <div className="flex items-center gap-2">
             <FaLocationDot color="grey"></FaLocationDot>
             <p className="italic">
-              from <strong>{props.location}</strong>
+              from <small>{props.location}</small>
             </p>
           </div>
         </div>

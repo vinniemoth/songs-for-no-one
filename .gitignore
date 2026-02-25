@@ -1,0 +1,18 @@
+# Dependências
+node_modules/
+.pnpm-store/
+
+# Variáveis de Ambiente
+.env
+.env.local
+
+# Build de produção
+dist/
+build/
+
+# Prisma
+.prisma/
+
+# Sistema
+.DS_Store
+Thumbs.db

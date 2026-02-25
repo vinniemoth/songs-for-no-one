@@ -2,7 +2,7 @@ import { Bounce, toast } from "react-toastify";
 
 type ToastType = "success" | "error";
 
-const useNotification = (message: string, type: ToastType) => {
+const showNotification = (message: string, type: ToastType) => {
   toast[type](message, {
     position: "bottom-right",
     autoClose: 5000,
@@ -16,4 +16,4 @@ const useNotification = (message: string, type: ToastType) => {
   });
 };
 
-export default useNotification;
+export default showNotification;
