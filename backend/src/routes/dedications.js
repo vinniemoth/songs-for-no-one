@@ -15,7 +15,6 @@ router.post("/", async (req, res) => {
       details: validation.error.flatten().fieldErrors,
     });
   }
-  console.log(data);
   try {
     const dedication = await dedicationService.createDedication(
       validation.data,

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { authenticationService } from "../services/authService";
 import showNotification from "../utils/notify";
 import Toast from "../components/Toast";
+import { useNavigate } from "react-router";
 
 export default function SignupPage() {
   const [mode, setMode] = useState("signup");
@@ -11,6 +12,8 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,6 +38,17 @@ export default function SignupPage() {
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    try {
+      const data = await authenticationService.login(email, password);
+      localStorage.setItem("token", data.token);
+      showNotification("Logged in!", "success");
+      navigate("/");
+      return data;
+    } catch (error: any) {
+      console.error(error);
+      showNotification(error.message, "error");
+      return;
+    }
   };
 
   const changeMode = (mode: string) => {
@@ -139,7 +153,7 @@ export default function SignupPage() {
             <div className="flex w-3/4 justify-center relative">
               <input
                 className="bg-white w-full rounded-md h-10 px-8"
-                type="text"
+                type="password"
                 placeholder="Password"
                 required
                 value={password}

@@ -1,0 +1,50 @@
+import prisma from "../../lib/prisma.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+
+const userService = {
+  async createUser({ username, email, password }) {
+    try {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+
+      const result = await prisma.user.create({
+        data: { username, email, password: hashedPassword },
+      });
+      return result;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  async login({ email, password }) {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { email },
+      });
+      if (!user) {
+        console.log("User not found");
+        return null;
+      }
+
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+
+      if (isPasswordValid) {
+        const token = jwt.sign(
+          { id: user.id, email: user.email },
+          process.env.JWT_SECRET,
+          { expiresIn: "1d" },
+        );
+
+        return {
+          token,
+        };
+      }
+      return null;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+};
+
+export default userService;
