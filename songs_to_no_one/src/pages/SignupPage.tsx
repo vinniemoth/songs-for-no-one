@@ -1,6 +1,9 @@
 import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 import NavigationBar from "../components/NavigationBar";
 import { useState } from "react";
+import { authenticationService } from "../services/authService";
+import showNotification from "../utils/notify";
+import Toast from "../components/Toast";
 
 export default function SignupPage() {
   const [mode, setMode] = useState("signup");
@@ -11,6 +14,23 @@ export default function SignupPage() {
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (password === confirmPassword) {
+      try {
+        const data = await authenticationService.signup(
+          username,
+          email,
+          password,
+        );
+        showNotification("Account Created!", "success");
+        return;
+      } catch (err) {
+        console.error(err);
+        showNotification("Error creating account", "error");
+        return;
+      }
+    }
+    console.log(password, confirmPassword);
+    showNotification("Passwords don't match", "error");
   };
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -40,6 +60,7 @@ export default function SignupPage() {
                 className="bg-white w-full rounded-md h-10 px-8"
                 type="text"
                 placeholder="Username"
+                required
                 value={username}
                 onChange={(e) => {
                   setUsername(e.target.value);
@@ -52,6 +73,7 @@ export default function SignupPage() {
                 className="bg-white w-full rounded-md h-10 px-8"
                 type="text"
                 placeholder="Email"
+                required
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -64,6 +86,7 @@ export default function SignupPage() {
                 className="bg-white w-full rounded-md h-10 px-8"
                 type="password"
                 placeholder="Password"
+                required
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
@@ -76,6 +99,7 @@ export default function SignupPage() {
                 className="bg-white w-full rounded-md h-10 px-8"
                 type="password"
                 placeholder="Confirm password"
+                required
                 value={confirmPassword}
                 onChange={(e) => {
                   setConfirmPassword(e.target.value);
@@ -104,6 +128,7 @@ export default function SignupPage() {
                 className="bg-white w-full rounded-md h-10 px-8"
                 type="text"
                 placeholder="Email"
+                required
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -116,6 +141,7 @@ export default function SignupPage() {
                 className="bg-white w-full rounded-md h-10 px-8"
                 type="text"
                 placeholder="Password"
+                required
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
@@ -135,6 +161,7 @@ export default function SignupPage() {
           </form>
         )}
       </div>
+      <Toast></Toast>
     </div>
   );
 }
