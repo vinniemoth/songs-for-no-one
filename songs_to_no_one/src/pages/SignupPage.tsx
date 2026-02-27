@@ -28,6 +28,7 @@ export default function SignupPage() {
           password,
         );
         showNotification("Account Created!", "success");
+        setMode("login");
         return;
       } catch (error) {
         showNotification(`${error}`, "error");
