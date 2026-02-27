@@ -49,6 +49,25 @@ const userService = {
       console.error(error);
     }
   },
+
+  async findUserById(id) {
+    try {
+      const user = await prisma.user.findUnique({
+        where: {
+          id,
+        },
+        select: {
+          email: true,
+          username: true,
+          dedications: true,
+        },
+      });
+
+      return user;
+    } catch (error) {
+      return null;
+    }
+  },
 };
 
 export default userService;
