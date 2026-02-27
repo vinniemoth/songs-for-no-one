@@ -18,6 +18,7 @@ export default function PostPage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const token = localStorage.getItem("token");
     if (dedication.trim().length === 0 || location.trim().length === 0) {
       showNotification("All fields required", "error");
       return;
@@ -34,9 +35,11 @@ export default function PostPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(payload),
       });
+      console.log(await response.json());
 
       if (response.ok) {
         setSong({ name: "", artist: "", album: "" });

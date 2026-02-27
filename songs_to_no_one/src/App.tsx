@@ -63,27 +63,35 @@ export default function App() {
           <div className="flex flex-col items-center w-full">
             <h1 className="text-xl">Most recent dedication:</h1>
             <div className="w-1/2 p-5">
-              <SongCard
-                song={lastDedication.songName}
-                artistName={lastDedication.artistName}
-                albumImage={lastDedication.albumImage}
-                spotifyLink={lastDedication.spotifyLink}
-                dedication={lastDedication.dedication}
-                location={lastDedication.location}
-              />
+              {!lastDedication ? (
+                <h1>Nothing found</h1>
+              ) : (
+                <SongCard
+                  song={lastDedication.songName}
+                  artistName={lastDedication.artistName}
+                  albumImage={lastDedication.albumImage}
+                  spotifyLink={lastDedication.spotifyLink}
+                  dedication={lastDedication.dedication}
+                  location={lastDedication.location}
+                />
+              )}
             </div>
           </div>
           <div className="flex flex-col items-center w-full">
             <h1 className="text-xl">Featured song:</h1>
             <div className="w-1/2 p-5">
-              <SongCard
-                song={featuredDedication.songName}
-                artistName={featuredDedication.artistName}
-                albumImage={featuredDedication.albumImage}
-                spotifyLink={featuredDedication.spotifyLink}
-                dedication="a lot of people"
-                location="around the world"
-              />
+              {!featuredDedication ? (
+                <h1>Nothing found</h1>
+              ) : (
+                <SongCard
+                  song={featuredDedication.songName}
+                  artistName={featuredDedication.artistName}
+                  albumImage={featuredDedication.albumImage}
+                  spotifyLink={featuredDedication.spotifyLink}
+                  dedication="a lot of people"
+                  location="around the world"
+                />
+              )}
             </div>
           </div>
         </main>

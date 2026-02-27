@@ -1,7 +1,7 @@
 import prisma from "../../lib/prisma.js";
 
 const dedicationService = {
-  async createDedication({ song, dedication, location }) {
+  async createDedication({ song, dedication, location, authorId }) {
     try {
       const result = await prisma.dedication.create({
         data: {
@@ -11,6 +11,11 @@ const dedicationService = {
           spotifyLink: song.link,
           dedication,
           location,
+          author: {
+            connect: {
+              id: authorId,
+            },
+          },
         },
       });
       console.log(result);

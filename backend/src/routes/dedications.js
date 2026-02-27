@@ -2,23 +2,24 @@ import express from "express";
 
 import dedicationService from "../services/dedicationService.js";
 import { dedicationSchema } from "../schemas/dedicationSchema.js";
+import { authMiddleware } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/", async (req, res) => {
+router.post("/", authMiddleware, async (req, res) => {
   const data = req.body;
   const validation = dedicationSchema.safeParse(data);
-
   if (!validation.success) {
-    res.status(400).json({
+    return res.status(400).json({
       error: "Invalid data.",
       details: validation.error.flatten().fieldErrors,
     });
   }
   try {
-    const dedication = await dedicationService.createDedication(
-      validation.data,
-    );
+    const dedication = await dedicationService.createDedication({
+      ...validation.data,
+      authorId: req.userId,
+    });
     res.status(201).json(dedication);
   } catch (error) {
     res.status(500).json("Error creating dedication");
