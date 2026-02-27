@@ -41,7 +41,7 @@ export default function NavigationBar(props: NavigationBarProps) {
 
         <div
           className={`flex justify-center p-4 hover:cursor-pointer ${props.active === "user" ? "bg-zinc-800 rounded-lg" : ""} hover:bg-zinc-800 rounded-lg`}
-          onClick={() => navigate("/signup")}
+          onClick={() => navigate(token ? "/profile" : "/signup")}
         >
           <FaUser size={30} color={"white"} />
         </div>
