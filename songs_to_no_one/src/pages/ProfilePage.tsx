@@ -36,7 +36,7 @@ export default function ProfilePage() {
             <p className="text-zinc-400">{user.email}</p>
           </div>
           <h2 className="text-lg text-center font-semibold mb-4 text-white">
-            Minhas Dedicatórias
+            My dedications
           </h2>
           <div className="flex flex-wrap gap-4 w-full text-white">
             {dedications &&
