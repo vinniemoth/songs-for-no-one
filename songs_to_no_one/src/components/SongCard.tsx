@@ -1,18 +1,20 @@
-import { FaPlay } from "react-icons/fa";
+import { FaPlay, FaTrash } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 
 interface SongCardProps {
+  id: string;
   song: string;
   artistName: string;
   albumImage: string;
   spotifyLink: string;
   dedication: string;
   location: string;
+  onDelete?: (id: string) => void;
 }
 
 export default function SongCard(props: SongCardProps) {
   return (
-    <div className="card flex p-4 rounded-lg w-full h-40 text-white">
+    <div className="card flex p-4 rounded-lg w-full h-40 text-white relative">
       <div className="relative shrink-0">
         <img
           src={props.albumImage}
@@ -41,6 +43,17 @@ export default function SongCard(props: SongCardProps) {
             <p className="italic truncate text-sm">from {props.location}</p>
           </div>
         </div>
+        {props.onDelete && (
+          <button
+            onClick={() => {
+              props.onDelete!(props.id);
+            }}
+            className="absolute top-4 right-4 text-zinc-500 hover:text-red-500 transition-colors p-1 hover:cursor-pointer"
+            title="Excluir dedicatória"
+          >
+            <FaTrash size={18} />
+          </button>
+        )}
       </div>
     </div>
   );

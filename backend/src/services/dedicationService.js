@@ -25,6 +25,32 @@ const dedicationService = {
     }
   },
 
+  async deleteDedication(id, userId) {
+    try {
+      const dedication = await prisma.dedication.findUnique({
+        where: { id },
+      });
+
+      if (!dedication) {
+        return { status: "404", message: "Dedication not found." };
+      }
+      if (dedication.authorId !== userId) {
+        return {
+          status: "401",
+          message: "You are not authorized to delete this dedication.",
+        };
+      }
+
+      await prisma.dedication.delete({
+        where: { id },
+      });
+
+      return { status: "200", message: "Dedication deleted successfully." };
+    } catch (error) {
+      return error;
+    }
+  },
+
   async fetchDedicationByCity(location, page = 1, limit = 10) {
     const skip = (page - 1) * limit;
     try {

@@ -3,6 +3,7 @@ import express from "express";
 import dedicationService from "../services/dedicationService.js";
 import { dedicationSchema } from "../schemas/dedicationSchema.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
+import { id } from "zod/locales";
 
 const router = express.Router();
 
@@ -42,6 +43,18 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.delete("/:id", authMiddleware, async (req, res) => {
+  try {
+    const userId = req.userId;
+    const id = req.params.id;
+    const dedication = await dedicationService.deleteDedication(id, userId);
+    console.log(dedication);
+    res.json(dedication);
+  } catch (error) {
+    res.status(500).json("Error deleting dedication");
+  }
+});
+
 router.get("/most_recent", async (req, res) => {
   try {
     const dedication = await dedicationService.fetchMostRecentDedication();
@@ -50,6 +63,7 @@ router.get("/most_recent", async (req, res) => {
     console.error(error);
   }
 });
+
 router.get("/featured", async (req, res) => {
   try {
     const dedication = await dedicationService.fetchFeaturedDedication();
