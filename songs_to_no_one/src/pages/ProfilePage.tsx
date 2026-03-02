@@ -18,8 +18,8 @@ export default function ProfilePage() {
       },
     });
     const data = await response.json();
-    setUser(data);
-    setDedications(data.dedications || []);
+    setUser(data.data);
+    setDedications(data.data.dedications || []);
 
     return data;
   };

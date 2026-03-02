@@ -11,13 +11,18 @@ const userService = {
       const result = await prisma.user.create({
         data: { username, email, password: hashedPassword },
       });
-
-      return result;
+      return { status: 201, message: "SUCCESS", data: result };
     } catch (error) {
       if (error.code === "P2002") {
-        throw new Error("Email already exists");
+        return {
+          status: 400,
+          message: "EXISTING_EMAIL",
+        };
       }
-      throw new Error("Error creating user");
+      return {
+        status: 500,
+        message: "INTERNAL_SERVER_ERROR",
+      };
     }
   },
 
@@ -27,8 +32,10 @@ const userService = {
         where: { email },
       });
       if (!user) {
-        console.log("User not found");
-        return null;
+        return {
+          status: 404,
+          message: "NOT_FOUND",
+        };
       }
 
       const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -41,12 +48,21 @@ const userService = {
         );
 
         return {
+          status: 200,
+          message: "SUCCESS",
           token,
         };
       }
-      return null;
+      return {
+        status: 404,
+        message: "NOT_FOUND",
+      };
     } catch (error) {
-      console.error(error);
+      console.error("INTERNAL SERVER ERROR:", error);
+      return {
+        status: 500,
+        message: "INTERNAL_SERVER_ERROR",
+      };
     }
   },
 
@@ -63,9 +79,16 @@ const userService = {
         },
       });
 
-      return user;
+      return {
+        status: 200,
+        message: "SUCCESS",
+        data: user,
+      };
     } catch (error) {
-      return null;
+      return {
+        status: 500,
+        message: "INTERNAL_SERVER_ERROR",
+      };
     }
   },
 };

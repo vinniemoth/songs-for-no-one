@@ -17,6 +17,7 @@ export const authenticationService = {
     }
     return data;
   },
+
   signup: async (username: string, email: string, password: string) => {
     const response = await fetch(`${API_URL}/auth/signup`, {
       method: "POST",
@@ -29,11 +30,11 @@ export const authenticationService = {
         password,
       }),
     });
+    const data = await response.json();
 
     if (!response.ok) {
-      const ErrorData = await response.json();
-      throw new Error(ErrorData);
+      throw new Error(data.message);
     }
-    return response.json;
+    return data;
   },
 };

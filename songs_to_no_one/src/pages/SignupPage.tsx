@@ -27,6 +27,7 @@ export default function SignupPage() {
           email,
           password,
         );
+
         showNotification("Account Created!", "success");
         setMode("login");
         return;
@@ -35,7 +36,6 @@ export default function SignupPage() {
         return;
       }
     }
-    console.log(password, confirmPassword);
     showNotification("Passwords don't match", "error");
   };
 

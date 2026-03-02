@@ -10,17 +10,19 @@ router.post("/signup", async (req, res) => {
   const validation = userSchema.safeParse(data);
 
   if (!validation.success) {
-    res.status(400).json({
+    return res.status(400).json({
       error: "Invalid data.",
       details: validation.error.flatten().fieldErrors,
     });
   }
   try {
     const user = await userService.createUser(validation.data);
-    res.status(201).json(user);
+    console.log(user);
+    return res
+      .status(user.status)
+      .json({ message: user.message, data: user.data });
   } catch (error) {
-    console.log(error);
-    res.status(500).json(error.message);
+    return res.status(500).json({ message: "FATAL_ERROR" });
   }
 });
 
@@ -31,9 +33,11 @@ router.post("/login", async (req, res) => {
     if (!data) {
       return res.status(401).json("Invalid credentials");
     }
-    res.status(200).json(data);
+    return res
+      .status(data.status)
+      .json({ message: data.message, token: data.token });
   } catch (error) {
-    res.status(500).json("Error fetching user");
+    return res.status(500).json({ message: "FATAL ERROR" });
   }
 });
 
