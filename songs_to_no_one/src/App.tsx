@@ -29,7 +29,7 @@ export default function App() {
         "http://localhost:3000/dedication/most_recent",
       );
       const data = await response.json();
-      setLastDedication(data);
+      setLastDedication(data.data);
     } catch (error) {
       console.error(error);
     }
@@ -39,7 +39,7 @@ export default function App() {
     try {
       const response = await fetch("http://localhost:3000/dedication/featured");
       const data = await response.json();
-      setFeaturedDedication(data);
+      setFeaturedDedication(data.data);
     } catch (error) {
       console.error(error);
     }
@@ -67,6 +67,7 @@ export default function App() {
                 <h1>Nothing found</h1>
               ) : (
                 <SongCard
+                  id={lastDedication.id}
                   song={lastDedication.songName}
                   artistName={lastDedication.artistName}
                   albumImage={lastDedication.albumImage}
@@ -84,6 +85,7 @@ export default function App() {
                 <h1>Nothing found</h1>
               ) : (
                 <SongCard
+                  id={featuredDedication.id}
                   song={featuredDedication.songName}
                   artistName={featuredDedication.artistName}
                   albumImage={featuredDedication.albumImage}

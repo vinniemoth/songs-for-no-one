@@ -18,10 +18,17 @@ const dedicationService = {
           },
         },
       });
-      console.log(result);
-      return result;
+      return {
+        status: 201,
+        message: "CREATED",
+        data: result,
+      };
     } catch (error) {
-      console.log(error);
+      console.error("Error creating dedication", error);
+      return {
+        status: 500,
+        message: "INTERNAL_SERVER_ERROR",
+      };
     }
   },
 
@@ -32,12 +39,13 @@ const dedicationService = {
       });
 
       if (!dedication) {
-        return { status: "404", message: "Dedication not found." };
+        return { status: 404, message: "NOT_FOUND" };
       }
+
       if (dedication.authorId !== userId) {
         return {
-          status: "401",
-          message: "You are not authorized to delete this dedication.",
+          status: 401,
+          message: "UNAUTHORIZED",
         };
       }
 
@@ -45,9 +53,13 @@ const dedicationService = {
         where: { id },
       });
 
-      return { status: "200", message: "Dedication deleted successfully." };
+      return { status: 200, message: "SUCCESS" };
     } catch (error) {
-      return error;
+      console.error("Error deleting dedication", error);
+      return {
+        status: "500",
+        message: "INTERNAL_SERVER_ERROR",
+      };
     }
   },
 
@@ -67,10 +79,17 @@ const dedicationService = {
         take: limit,
         skip: skip,
       });
-      console.log(result);
-      return result;
+      return {
+        status: 200,
+        message: "SUCCESS",
+        data: result,
+      };
     } catch (error) {
-      console.error(error);
+      console.error("INTERNAL SERVER ERROR", error);
+      return {
+        status: 500,
+        message: "INTERNAL_SERVER_ERROR",
+      };
     }
   },
 
@@ -81,9 +100,13 @@ const dedicationService = {
           createdAt: "desc",
         },
       });
-      return result;
+      return { status: 200, message: "SUCCESS", data: result };
     } catch (error) {
-      console.error(error);
+      console.error("INTERNAL SERVER ERROR", error);
+      return {
+        status: 500,
+        message: "INTERNAL_SERVER_ERROR",
+      };
     }
   },
 
@@ -101,9 +124,13 @@ const dedicationService = {
         },
         take: 1,
       });
-      return result[0];
+      return { status: 200, message: "SUCCESS", data: result[0] };
     } catch (error) {
-      console.error(error);
+      console.error("INTERNAL SERVER ERROR", error);
+      return {
+        status: 500,
+        message: "INTERNAL_SERVER_ERROR",
+      };
     }
   },
 };

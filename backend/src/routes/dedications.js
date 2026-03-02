@@ -47,29 +47,40 @@ router.delete("/:id", authMiddleware, async (req, res) => {
   try {
     const userId = req.userId;
     const id = req.params.id;
+
     const dedication = await dedicationService.deleteDedication(id, userId);
-    console.log(dedication);
-    res.json(dedication);
+
+    res.status(dedication.status).json({
+      message: dedication.message,
+    });
   } catch (error) {
-    res.status(500).json("Error deleting dedication");
+    console.error("FATAL ERROR:", error);
+    res.status(500).json({ message: "FATAL_ERROR" });
   }
 });
 
 router.get("/most_recent", async (req, res) => {
   try {
     const dedication = await dedicationService.fetchMostRecentDedication();
-    res.json(dedication);
+    res
+      .status(dedication.status)
+      .json({ message: dedication.message, data: dedication.data });
   } catch (error) {
-    console.error(error);
+    console.error("FATAL_ERROR", error);
+    return res.status(500).json({ message: "FATAL_ERROR" });
   }
 });
 
 router.get("/featured", async (req, res) => {
   try {
     const dedication = await dedicationService.fetchFeaturedDedication();
-    res.json(dedication);
+    res.status(dedication.status).json({
+      message: dedication.message,
+      data: dedication.data,
+    });
   } catch (error) {
-    console.error(error);
+    console.error("FATAL ERROR", error);
+    return res.status(500).json({ message: "FATAL_ERROR" });
   }
 });
 

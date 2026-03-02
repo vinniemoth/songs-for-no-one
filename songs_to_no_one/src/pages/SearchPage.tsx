@@ -22,13 +22,14 @@ export default function SearchResults() {
         `http://localhost:3000/dedication?location=${encodeURIComponent(query)}&page=${pageToLoad}`,
       );
       const newData = await response.json();
+      const entries = newData.data;
 
-      if (newData.length < 10) {
+      if (entries.length < 10) {
         setHasMore(false);
       }
 
       setDedications((prev) =>
-        pageToLoad === 1 ? newData : [...prev, ...newData],
+        pageToLoad === 1 ? entries : [...prev, ...entries],
       );
     } catch (error) {
       console.error(error);
@@ -79,6 +80,7 @@ export default function SearchResults() {
               {dedications.map((item) => (
                 <div key={item.id} className="flex w-130">
                   <SongCard
+                    id={item.id}
                     song={item.songName}
                     artistName={item.artistName}
                     spotifyLink={item.spotifyLink}
