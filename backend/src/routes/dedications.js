@@ -3,7 +3,6 @@ import express from "express";
 import dedicationService from "../services/dedicationService.js";
 import { dedicationSchema } from "../schemas/dedicationSchema.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
-import { id } from "zod/locales";
 
 const router = express.Router();
 
@@ -21,7 +20,9 @@ router.post("/", authMiddleware, async (req, res) => {
       ...validation.data,
       authorId: req.userId,
     });
-    res.status(201).json(dedication);
+    res
+      .status(dedication.status)
+      .json({ message: dedication.message, data: dedication.data });
   } catch (error) {
     res.status(500).json("Error creating dedication");
   }
@@ -37,9 +38,12 @@ router.get("/", async (req, res) => {
       currentPage,
       10,
     );
-    res.json(dedications);
+    res
+      .status(dedications.status)
+      .json({ message: dedications.message, data: dedications.data });
   } catch (error) {
-    console.error(error);
+    console.error("FATAL ERROR", error);
+    return res.status(500).json({ message: "FATAL_ERROR" });
   }
 });
 

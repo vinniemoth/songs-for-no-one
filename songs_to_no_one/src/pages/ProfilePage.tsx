@@ -3,6 +3,8 @@ import NavigationBar from "../components/NavigationBar";
 import type { userProfile } from "../types/userProfile";
 import SongCard from "../components/SongCard";
 import type { Dedication } from "../types/dedication";
+import Notify from "../utils/notify";
+import Toast from "../components/Toast";
 
 export default function ProfilePage() {
   const [user, setUser] = useState<userProfile | null>(null);
@@ -36,6 +38,7 @@ export default function ProfilePage() {
       });
       if (response.ok) {
         setDedications((prev) => prev.filter((d) => d.id !== id));
+        Notify("Dedication deleted successfully", "success");
       }
     } catch (error) {
       console.log(error);
@@ -77,6 +80,7 @@ export default function ProfilePage() {
           </div>
         </div>
       )}
+      <Toast></Toast>
     </div>
   );
 }
