@@ -11,12 +11,15 @@ const userService = {
       const result = await prisma.user.create({
         data: { username, email, password: hashedPassword },
       });
-      return { status: 201, message: "SUCCESS", data: result };
+
+      const { password: _, ...userWithoutPassword } = result;
+
+      return { status: 201, message: "SUCCESS", data: userWithoutPassword };
     } catch (error) {
       if (error.code === "P2002") {
         return {
           status: 400,
-          message: "EXISTING_EMAIL",
+          message: "EXISTING_USER",
         };
       }
       return {
