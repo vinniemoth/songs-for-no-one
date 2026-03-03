@@ -8,10 +8,16 @@ export default function CitySearchInput({ onChange }: CitySearchProps) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<any[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [isSelected, setIsSelected] = useState(false);
 
   useEffect(() => {
+    if (isSelected) {
+      setIsSelected(false);
+      return;
+    }
     if (!query || query.length < 3) {
       setResults([]);
+      setIsOpen(false);
       return;
     }
 
@@ -33,9 +39,11 @@ export default function CitySearchInput({ onChange }: CitySearchProps) {
   }, [query]);
 
   const handleSelect = (displayName: string) => {
+    setIsSelected(true);
     setQuery(displayName);
     onChange(displayName);
     setIsOpen(false);
+    setResults([]);
   };
 
   return (

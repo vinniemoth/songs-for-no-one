@@ -51,51 +51,49 @@ export default function App() {
   }, []);
 
   return (
-    <div className="flex">
-      <NavigationBar active="home"></NavigationBar>
-      <div className="w-full text-white">
-        <header className="min-h-100vh flex w-full justify-center py-5">
-          <h1 className="text-red-500 font-extrabold text-2xl">
+    <div className="flex flex-col md:flex-row min-h-screen bg-black">
+      <NavigationBar active="home" />
+
+      <div className="flex-1 text-white">
+        <header className="flex w-full justify-center py-8">
+          <h1 className="text-red-500 font-extrabold text-3xl md:text-4xl tracking-tighter">
             Songs For No One
           </h1>
         </header>
-        <main>
-          <div className="flex flex-col items-center w-full">
-            <h1 className="text-xl">Most recent dedication:</h1>
-            <div className="w-1/2 p-5">
+
+        <main className="space-y-10 pb-20">
+          {/* Seção Recent */}
+          <section className="flex flex-col items-center w-full">
+            <h2 className="text-lg md:text-xl font-medium opacity-80">
+              Most recent dedication:
+            </h2>
+            <div className="w-full max-w-md md:max-w-2xl lg:max-w-3xl p-4">
               {!lastDedication ? (
-                <h1>Nothing found</h1>
+                <h1 className="text-center italic">Nothing found</h1>
               ) : (
-                <SongCard
-                  id={lastDedication.id}
-                  song={lastDedication.songName}
-                  artistName={lastDedication.artistName}
-                  albumImage={lastDedication.albumImage}
-                  spotifyLink={lastDedication.spotifyLink}
-                  dedication={lastDedication.dedication}
-                  location={lastDedication.location}
-                />
+                <SongCard song={lastDedication.songName} {...lastDedication} />
               )}
             </div>
-          </div>
-          <div className="flex flex-col items-center w-full">
-            <h1 className="text-xl">Featured song:</h1>
-            <div className="w-1/2 p-5">
+          </section>
+
+          {/* Seção Featured */}
+          <section className="flex flex-col items-center w-full">
+            <h2 className="text-lg md:text-xl font-medium opacity-80">
+              Featured song:
+            </h2>
+            <div className="w-full max-w-md md:max-w-2xl lg:max-w-3xl p-4">
               {!featuredDedication ? (
-                <h1>Nothing found</h1>
+                <h1 className="text-center italic">Nothing found</h1>
               ) : (
                 <SongCard
-                  id={featuredDedication.id}
                   song={featuredDedication.songName}
-                  artistName={featuredDedication.artistName}
-                  albumImage={featuredDedication.albumImage}
-                  spotifyLink={featuredDedication.spotifyLink}
+                  {...featuredDedication}
                   dedication="a lot of people"
                   location="around the world"
                 />
               )}
             </div>
-          </div>
+          </section>
         </main>
       </div>
     </div>
